@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+	<apiVersion>62.0</apiVersion>
+	<isExposed>true</isExposed>
+	<targets>
+		<target>lightning__AppPage</target>
+		<target>lightning__HomePage</target>
+		<target>lightning__RecordPage</target>
+		<target>lightningCommunity__Page</target>
+		<target>lightningCommunity__Default</target>
+	</targets>
+	<targetConfigs>
+        <targetConfig targets="lightning__RecordPage, lightning__AppPage, lightning__HomePage, lightningCommunity__Default">
+            <property name="editableFieldList" label="Fields to be editable" type="String" required="false" description="Enter a comma-separated list of field API names"/>
+			<property name="nonEditableFieldList" label="Fields to be Read only" type="String" required="false" description="Enter a comma-separated list of field API names" />
+			</targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

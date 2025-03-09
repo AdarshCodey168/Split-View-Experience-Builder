@@ -1,0 +1,26 @@
+.custom-container{
+	color : black;
+}
+.scrollable-container {
+    height: 500px; /* Set this based on your requirement */
+    overflow-y: auto;
+}
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+.sorted-by-label {
+        font-size: 0.75rem;
+        font-style: italic;
+        cursor: pointer;
+    }
+
+    .sorted-by-label:hover {
+        text-decoration: underline;
+    }
+
+    .slds-dropdown {
+        position: inherit;
+    }

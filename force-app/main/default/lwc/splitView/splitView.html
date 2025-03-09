@@ -1,0 +1,156 @@
+<template>
+    <div class="slds-split-view_container slds-is-open">
+        <button class="slds-button slds-button_icon slds-button_icon slds-split-view__toggle-button slds-is-open" aria-controls="split-view-id" aria-expanded="true" title="Close Split View">
+
+            <svg class="slds-button__icon slds-button__icon_x-small" aria-hidden="true">
+                <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#left"></use>
+            </svg>
+        </button>
+        <article hidden="" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow">
+            <header class="slds-split-view__header">
+                <div class="slds-grid slds-grid_vertical-align-center slds-m-bottom_xx-small">
+                    <div class="slds-has-flexi-truncate">
+                        <div class="slds-media slds-media_center">
+
+
+
+                            <template if:true={iconName}>
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name={iconName} size="small" title={iconName}></lightning-icon>
+                                </div>
+                            </template>
+
+
+                            <div class="slds-media__body">
+                                <h1 class="slds-text-heading_small slds-text-color_default slds-p-right_x-small">
+                                    <span class="slds-text-title_bold">{pluralLabel}</span>
+
+                                </h1>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="slds-no-flex slds-grid">
+                        <button class="slds-button slds-button_icon slds-button_icon-border-filled" onclick={handleRefresh} aria-haspopup="true" title="Refresh List">
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#refresh"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Refresh List</span>
+                            </button>
+                    </div>  -->
+                    <div class="slds-no-flex slds-grid">
+                        <lightning-button-icon icon-name="utility:refresh" variant="border-filled"
+                            alternative-text="Refresh List" onclick={handleRefresh}>
+                        </lightning-button-icon>
+                    </div>
+
+                </div>
+            </header>
+            <div class="slds-grid slds-grid_vertical">
+
+                <div class=" slds-grid slds-grid_align-spread">
+                    <div class="slds-m-left_small slds-m-bottom_x-small">
+                        <template if:true={filterFieldName}>
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_reset slds-type-focus slds-truncate" aria-haspopup="true" title="" onclick={toggleDropdown}>
+
+                                            <span class="slds-grid slds-has-flexi-truncate slds-grid_vertical-align-center">
+                                                <span class="slds-truncate" title={selectedStatus}>{selectedStatus}</span>
+                                               
+                                                    <lightning-icon icon-name="utility:down" alternative-text="Dropdown" size="x-small" class="slds-button__icon slds-button__icon_right slds-no-flex"></lightning-icon>
+
+                                            </span>
+                                        </button>
+                                <p class="slds-text-body_small slds-text-color_weak">{totalRecords} items</p>
+
+                                <lightning-layout>
+                                    <lightning-layout-item>
+                                        <template if:true={isDropdownOpen}>
+                                            <div class="slds-dropdown slds-dropdown_right slds-dropdown_fluid">
+                                                <ul class="slds-dropdown__list" role="menu">
+                                                    <template for:each={filteredOptions} for:item="option">
+                                                        <li key={option.value} class="slds-dropdown__item"
+                                                            role="presentation">
+                                                            <a href="#" role="menuitem" onclick={handleOptionSelect}
+                                                                data-value={option.value} data-label={option.label}>
+                                                                <span class="slds-truncate">{option.label}</span>
+                                                            </a>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </lightning-layout-item>
+
+                                </lightning-layout>
+
+                            </div>
+                        </template>
+                    </div>
+                    <template if:true={sortFieldAPIName}>
+                        <span class="sortable-column slds-text-title slds-text-link"
+          onclick={handleSort}
+          data-field={sortFieldAPIName}>
+        <i>Sorted by: {fieldLabel}</i>
+        <lightning-icon icon-name={sortIcon} size="xx-small" class="slds-align-top"></lightning-icon>
+    </span>
+                    </template>
+                </div>
+
+
+
+                <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox"
+                    aria-label="Select an item to open it in a new workspace tab.">
+                    <template if:true={messagesForTemplate}>
+                        <template for:each={messagesForTemplate} for:item="message">
+                            <li key={message.Id} class="slds-split-view__list-item" role="presentation"
+                                onclick={handleRecordClick} data-id={message.Id}>
+                                <a href="#" role="option"
+                                    class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate"
+                                    tabindex="0">
+                                    <div class="slds-grid slds-wrap">
+                                        <span class="slds-truncate slds-text-body_regular slds-text-color_default" title="Field 1">
+                                            {message.flatFields.field0}
+                                        </span>
+                                        <span class="slds-truncate slds-col_bump-left" title="Field 2">
+                                            {message.flatFields.field1}
+                                        </span>
+                                    </div>
+                                    <div class="slds-grid slds-wrap">
+                                        <span class="slds-truncate" title="Field 3">
+                                            {message.flatFields.field2}
+                                        </span>
+                                        <span class="slds-truncate slds-col_bump-left" title="Field 4">
+                                            {message.flatFields.field3}
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                        </template>
+                    </template>
+                    <template if:true={isLoading}>
+                        <li role="presentation">
+                            <div>Loading...</div>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+            <template if:true={totalRecords}>
+                <div class="slds-m-top_small slds-text-align_center">
+                    <button class="slds-button slds-button_neutral" onclick={previousPage} disabled={isFirstPage}>
+            Previous
+        </button>
+                    <span class="slds-m-horizontal_small">Page {currentPage} of {totalPages}</span>
+                    <button class="slds-button slds-button_neutral" onclick={nextPage} disabled={isLastPage}>
+            Next Page
+        </button>
+                </div>
+            </template>
+        </article>
+        <template if:true={showSpinner}>
+            <div class="spinner-container">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+    </div>
+</template>

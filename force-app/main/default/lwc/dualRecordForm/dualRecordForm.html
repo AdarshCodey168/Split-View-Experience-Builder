@@ -1,0 +1,49 @@
+<template>
+    <lightning-card title={objLabel}>
+        <div class="slds-box slds-theme_default">
+            <template if:true={recordId}>
+                <lightning-record-edit-form record-id={recordId} object-api-name={objectApiName}
+                    onsuccess={handleSuccess}>
+
+                    <template for:each={editableFieldList} for:item="field">
+                        <div key={field} class="slds-grid" if:false={showEditField}>
+                            <div class="slds-col slds-size_11-of-12">
+                                <lightning-output-field field-name={field}>
+                                </lightning-output-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12">
+                                <lightning-button-icon icon-name="utility:edit" onclick={handleEdit}>
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                        <div key={field} class="slds-grid" if:true={showEditField}>
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-input-field field-name={field}>
+                                </lightning-input-field>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template for:each={nonEditableFieldList} for:item="field">
+                        <div key={field} class="slds-grid">
+                            <div class="slds-col slds-size_11-of-12">
+                                <lightning-output-field field-name={field}>
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:if={showEditField}>
+                        <div class="slds-grid slds-grid_align-center slds-m-top_medium">
+                            <lightning-button class="slds-m-right_medium" label="Cancel" onclick={handleReset}
+                                variant="neutral">
+                            </lightning-button>
+                            <lightning-button class="slds-m-left_small" label="Save Record" type="submit"
+                                variant="brand">
+                            </lightning-button>
+                        </div>
+                    </template>
+                </lightning-record-edit-form>
+            </template>
+        </div>
+    </lightning-card>
+</template>
