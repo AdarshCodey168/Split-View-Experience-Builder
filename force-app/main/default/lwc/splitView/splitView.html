@@ -30,14 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="slds-no-flex slds-grid">
-                        <button class="slds-button slds-button_icon slds-button_icon-border-filled" onclick={handleRefresh} aria-haspopup="true" title="Refresh List">
-                                <svg class="slds-button__icon" aria-hidden="true">
-                                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#refresh"></use>
-                                </svg>
-                                <span class="slds-assistive-text">Refresh List</span>
-                            </button>
-                    </div>  -->
+
                     <div class="slds-no-flex slds-grid">
                         <lightning-button-icon icon-name="utility:refresh" variant="border-filled"
                             alternative-text="Refresh List" onclick={handleRefresh}>
@@ -137,6 +130,9 @@
             </div>
             <template if:true={totalRecords}>
                 <div class="slds-m-top_small slds-text-align_center">
+                    <button class="slds-button slds-button_neutral" onclick={goToFirstPage} disabled={isFirstPage}>
+            First Page
+        </button>
                     <button class="slds-button slds-button_neutral" onclick={previousPage} disabled={isFirstPage}>
             Previous
         </button>
@@ -144,8 +140,12 @@
                     <button class="slds-button slds-button_neutral" onclick={nextPage} disabled={isLastPage}>
             Next Page
         </button>
+                    <button class="slds-button slds-button_neutral" onclick={goToLastPage} disabled={isLastPage}>
+            Last Page
+        </button>
                 </div>
             </template>
+
         </article>
         <template if:true={showSpinner}>
             <div class="spinner-container">

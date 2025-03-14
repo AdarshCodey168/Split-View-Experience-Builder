@@ -11,14 +11,14 @@
 	</targets>
 	<targetConfigs>
         <targetConfig targets="lightning__RecordPage, lightning__AppPage, lightning__HomePage, lightningCommunity__Default">
-            <property name="ObjName" label="Object API Name" type="String" required="false"/>
-			<property name="fieldApiNames" label="Field API Names" type="String" required="false" description="Enter a comma-separated list of field API names" />
+            <property name="ObjName" default="Opportunity" label="Object API Name" type="String" required="true"/>
+			<property name="fieldApiNames" default="StageName" label="Field API Names" type="String" required="true" description="Enter a comma-separated list of field API names" />
 			<property name="pageSize" label="Page Size" type="Integer" required="false"/>
-			<property name="fieldApiName" label="ListView Field Filter" type="String" description="Provide the api name of the picklist field"  required="false"/>
+			<property name="fieldApiName" label="ListView Field Filter API Name" default="StageName" type="String" description="Provide the api name of the picklist field"  required="true"/>
 			<property name="sortFieldAPIName" label="Field API Name for Sorting" type="String" description="Provide the api name of the field to be sorted"  required="false"/>
 			<property name="sortOrder" label="Sort Order" type="String" datasource="ASC,DESC" default="ASC"/>
-			<property name="iconName" label="Icon Name of the Object" type="String" description="Example --> standard:opportunity_contact_role"  required="false"/>
-			<property name="selectedStatus" label="Default filter value" type="String" required="false"/>
+			<property name="iconName" default="standard:opportunity_contact_role" label="Icon Name of the Object" type="String" description="Example --> standard:opportunity_contact_role"  required="false"/>
+			<property name="selectedStatus" label="Default filter value" description="Set the default filter value" type="String" required="true"/>
 
 
 			</targetConfig>

@@ -15,22 +15,21 @@ export default class SplitView extends LightningElement {
     @track error;
     @api selectedStatus; // Default value
     @track messages = [];
-    @track isDropdownOpen = false; 
+    @track isDropdownOpen = false;
     objRecordType;
     @api fieldApiNames = "";
-    offset = 0; 
-    @api pageSize = 10; 
+    offset = 0;
+    @api pageSize = 10;
     @track currentPage = 1;
     @track totalRecords = 0;
     @track isLoading = false;
     @api fieldApiName = ''; // The field API name passed dynamically
     @track showSpinner = false;
-     @api sortOrder = '';
- 
-       @api sortFieldAPIName = '';
-            @track fieldLabel;
-                @track pluralLabel;
-                @api iconName;
+    @api sortOrder = '';
+    @api sortFieldAPIName = '';
+    @track fieldLabel;
+    @track pluralLabel;
+    @api iconName;
 
 
     renderedCallback() {
@@ -39,7 +38,7 @@ export default class SplitView extends LightningElement {
             this.addClickListeners();
         }, 0);
     }
-   
+
 
     addClickListeners() {
         this.template.querySelectorAll('.slds-dropdown__item a').forEach(item => {
@@ -87,11 +86,11 @@ export default class SplitView extends LightningElement {
         }
     }
 
-    get filterFieldName(){
+    get filterFieldName() {
         return this.fieldApiName;
     }
 
-fetchPluralLabel() {
+    fetchPluralLabel() {
         getPluralLabel({ objectName: this.ObjName })
             .then(result => {
                 console.log('result pluralLabel', result);
@@ -124,26 +123,25 @@ fetchPluralLabel() {
         if (typeof this.fieldApiNames === 'string') {
             this.fieldApiNames = this.fieldApiNames.split(',').map(field => field.trim());
         }
-                this.fetchFieldLabel();
-                this.fetchPluralLabel();
+        this.fetchFieldLabel();
+        this.fetchPluralLabel();
 
-                this.fetchMessages();
+        this.fetchMessages();
 
 
     }
 
-
     handleOptionSelect(event) {
-         event.preventDefault(); // Prevent default anchor behavior
+        event.preventDefault(); // Prevent default anchor behavior
         const selectedValue = event.currentTarget.dataset.value;
         this.selectedStatus = selectedValue;
         this.currentPage = 1;
         this.offset = 0;
-        console.log('inside handleOptionSelect==',this.selectedStatus);
+        console.log('inside handleOptionSelect==', this.selectedStatus);
 
         // Close the dropdown after selection
         this.isDropdownOpen = false;
-         this.fetchMessages();
+        this.fetchMessages();
         // Recreate the options to exclude the selected value from the dropdown
         this.statusOptions = this.statusOptions.map(option => ({
             ...option,
@@ -159,7 +157,7 @@ fetchPluralLabel() {
     @wire(getObjectInfo, { objectApiName: "$ObjName" })
     results({ error, data }) {
         if (data) {
-            console.log('obj label==',data.label);
+            console.log('obj label==', data.label);
 
             this.objRecordType = data.defaultRecordTypeId;
             this.error = undefined;
@@ -181,7 +179,7 @@ fetchPluralLabel() {
         return this.currentPage === this.totalPages;
     }
 
-get sortIcon() {
+    get sortIcon() {
         return this.sortOrder === 'ASC' ? 'utility:arrowup' : 'utility:arrowdown';
     }
 
@@ -222,12 +220,19 @@ get sortIcon() {
         this.sortField = field;
         this.fetchMessages();
     }
+    goToFirstPage() {
+        if (this.currentPage > 1) {
+            this.currentPage = 1;
+            this.offset = 0;
+            this.fetchMessages();
+        }
+    }
+
     previousPage() {
         if (this.currentPage > 1) {
             this.currentPage--;
             this.offset -= this.pageSize;
-                        this.fetchMessages();
-
+            this.fetchMessages();
         }
     }
 
@@ -235,8 +240,15 @@ get sortIcon() {
         if (this.currentPage < this.totalPages) {
             this.currentPage++;
             this.offset += this.pageSize;
-                        this.fetchMessages();
+            this.fetchMessages();
+        }
+    }
 
+    goToLastPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage = this.totalPages;
+            this.offset = (this.totalPages - 1) * this.pageSize;
+            this.fetchMessages();
         }
     }
 
