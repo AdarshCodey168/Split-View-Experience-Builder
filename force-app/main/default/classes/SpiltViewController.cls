@@ -12,6 +12,11 @@ public with sharing class SpiltViewController {
     @AuraEnabled(cacheable=true)
     public static Map<String, Object> getFilteredMessages(String filterField, String filterValue, String objectName, List<String> fieldApiNames, Integer offset, Integer pageSize, String sortField, String sortOrder) {
         system.debug('getFilteredMessages check called');
+        system.debug('offset =='+offset);
+        system.debug('pageSize=='+pageSize);
+        system.debug('sortField=='+sortField);
+        system.debug('filterValue=='+filterValue);
+        
         if (String.isBlank(objectName) || !Schema.getGlobalDescribe().containsKey(objectName)) {
             throw new AuraHandledException('Invalid object name.');
         }
@@ -42,13 +47,15 @@ public with sharing class SpiltViewController {
         }
         
         query += ' LIMIT :pageSize OFFSET :offset';
+        
+        system.debug('query=='+query);
         List<SObject> results = Database.query(query);
         
         Map<String, Object> response = new Map<String, Object>{
             'records' => results,
                 'totalCount' => totalCount
                 };
-                    
+                 system.debug('totalCount=='+totalCount);   
                     return response;
     }
     

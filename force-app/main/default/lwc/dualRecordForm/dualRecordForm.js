@@ -17,7 +17,6 @@ export default class DualRecordForm extends LightningElement {
     @wire(getObjectInfo, { objectApiName: "$objectApiName" })
     results({ error, data }) {
         if (data) {
-            console.log('obj label==', data.label);
             this.objLabel = data.label + ' Form';
 
             this.error = undefined;
@@ -42,15 +41,11 @@ export default class DualRecordForm extends LightningElement {
 
         if (typeof this.editableFieldList === 'string') {
             this.editableFieldList = this.editableFieldList.split(',').map(field => field.trim());
-            console.log('editableFieldList==', this.editableFieldList);
         } else {
-            console.log('editableFieldList else==', this.editableFieldList);
         }
         if (typeof this.nonEditableFieldList === 'string') {
             this.nonEditableFieldList = this.nonEditableFieldList.split(',').map(field => field.trim());
-            console.log('nonEditableFieldList==', this.nonEditableFieldList);
         } else {
-            console.log('nonEditableFieldList else==', this.nonEditableFieldList);
         }
     }
     handleEdit() {
@@ -59,14 +54,11 @@ export default class DualRecordForm extends LightningElement {
 
     handleMessage(message) {
         if (message.recordId) {
-            console.log('Received recordId on right panel:', message.recordId);
-            console.log('editableFieldList==', this.editableFieldList);
-            console.log('nonEditableFieldList==', this.nonEditableFieldList);
+            
             this.recordId = message.recordId;
             this.objectApiName = message.objName1;
 
         } else {
-            console.log('going into else block', message.recordId);
             this.recordId = null;
         }
     }

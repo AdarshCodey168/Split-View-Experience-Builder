@@ -56,28 +56,19 @@ export default class SplitView extends LightningElement {
     })
     picklistResults({ error, data }) {
         if (data) {
-            console.log('data.picklistValues==', data.picklistValues);
             let picklistValues = data.picklistValues || [];
-            let defaultPicklistValue = data.defaultPicklistValue || null;
-
-            // If no default value is configured, fallback to the first value in the picklist
-            if (!defaultPicklistValue && picklistValues.length > 0) {
-                defaultPicklistValue = picklistValues[0]; // Assign first value as default
-            }
-            console.log('picklistValues==', picklistValues);
+            
             this.statusOptions = picklistValues.map(option => ({
                 label: option,
                 value: option,
-                isSelected: option === defaultPicklistValue
+                isSelected: option === this.selectedStatus
             }));
 
-            console.log('statusOptions==', this.statusOptions);
 
             // Store the resolved default picklist value
-            this.selectedStatus = defaultPicklistValue;
+         //   this.selectedStatus = defaultPicklistValue;
 
-            console.log("Picklist Values: ", this.statusOptions);
-            console.log("Resolved Default Picklist Value: ", this.selectedStatus);
+           
             this.error = undefined;
         } else if (error) {
             console.log('some error');
@@ -93,7 +84,6 @@ export default class SplitView extends LightningElement {
     fetchPluralLabel() {
         getPluralLabel({ objectName: this.ObjName })
             .then(result => {
-                console.log('result pluralLabel', result);
                 this.pluralLabel = result;
             })
             .catch(error => {
@@ -115,7 +105,6 @@ export default class SplitView extends LightningElement {
 
 
     toggleDropdown() {
-        console.log('Dropdown toggled!');
         this.isDropdownOpen = !this.isDropdownOpen;
     }
 
@@ -137,7 +126,6 @@ export default class SplitView extends LightningElement {
         this.selectedStatus = selectedValue;
         this.currentPage = 1;
         this.offset = 0;
-        console.log('inside handleOptionSelect==', this.selectedStatus);
 
         // Close the dropdown after selection
         this.isDropdownOpen = false;
@@ -157,7 +145,6 @@ export default class SplitView extends LightningElement {
     @wire(getObjectInfo, { objectApiName: "$ObjName" })
     results({ error, data }) {
         if (data) {
-            console.log('obj label==', data.label);
 
             this.objRecordType = data.defaultRecordTypeId;
             this.error = undefined;
@@ -267,19 +254,16 @@ export default class SplitView extends LightningElement {
 
     get messagesForTemplate() {
         console.log('finding the issue before messagesForTemplate');
-        console.log('messages check inside messagesForTemplate==', JSON.stringify(this.messages));
 
         return this.messages.map((message) => {
             const flatFields = {};
             if (message.dynamicFields) {
                 this.fieldApiNames.forEach((field, index) => {
-                    console.log('Processing field==', field);
                     flatFields[`field${index}`] = message.dynamicFields[field] || null; // Use unique keys for dynamic fields
                 });
             } else {
                 console.warn(`dynamicFields is missing for message with Id: ${message.Id}`);
             }
-            console.log('Processed flatFields:', JSON.stringify(flatFields));
             return { ...message, flatFields }; // Add flatFields for template usage
         });
     }
@@ -290,8 +274,6 @@ export default class SplitView extends LightningElement {
     handleRecordClick(event) {
         const recordId = event.currentTarget.dataset.id;
         const objName1 = this.ObjName;
-        console.log('Clicked Record ID:', recordId);
         publish(this.messageContext, MESSAGE_CHANNEL, { recordId, objName1 });
-        console.log('Message Published:', { recordId, objName1 });
     }
 }
