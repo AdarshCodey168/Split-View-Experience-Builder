@@ -10,10 +10,10 @@ This project provides a **custom split-view list** solution for Salesforce **Exp
 - **Object-Agnostic**: Works with any Salesforce object.
 - **Editable Form**: Opens a form for quick updates, while keeping non-editable fields visible.
 
-## Enhancements & Fixes
-- Fixed an issue with the **currency field** in the form.
-- Ensured that data updates **immediately reflect** in the left panel after saving.
-- Added **toast notifications** for save actions.
+## Upcoming Enhancements & Fixes
+- Fix an issue with the **currency field** in the form.
+- Ensure that data updates **immediately reflect** in the left panel after saving.
+- Add **toast notifications** for save actions.
 
 ---
 
@@ -68,3 +68,4 @@ This project is licensed under the **MIT License**.
 
 ## Support
 For any questions or issues, please open an **issue** in this repository or reach out via **Salesforce Trailblazer Community**.
+
